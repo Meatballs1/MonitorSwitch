@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MonitorSwitch")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Monitor Switch")]
+[assembly: AssemblyDescription("Automatic monitor input selection based on USB hub event")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MonitorSwitch")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("Monitor Switch")]
+[assembly: AssemblyCopyright("Copyright © Ben Campbell  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
