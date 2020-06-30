@@ -6,7 +6,7 @@ namespace MonitorSwitch
 {
     public partial class MonitorSwitch : Form
     {
-        String targetUsbHubDeviceID = @"USB\VID_1A40&PID_0101\5&1E7D8DB7&0&10";
+        String targetUsbHubDeviceID = @"USB\VID_1A40&PID_0101";
         ManagementEventWatcher insertWatcher = null;
         ManagementEventWatcher removeWatcher = null;
 
@@ -19,7 +19,7 @@ namespace MonitorSwitch
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             String deviceID = (String)instance.Properties["DeviceID"].Value;
-            if (deviceID.Equals(targetUsbHubDeviceID))
+            if (deviceID.Contains(targetUsbHubDeviceID))
             {
                 WinAPI.SetDisplayMonitors(true);
             }
@@ -29,7 +29,7 @@ namespace MonitorSwitch
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             String deviceID = (String)instance.Properties["DeviceID"].Value;
-            if (deviceID.Equals(targetUsbHubDeviceID))
+            if (deviceID.Contains(targetUsbHubDeviceID))
             {
                 WinAPI.SetDisplayMonitors(false);
             }
