@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -130,7 +131,7 @@ namespace MonitorSwitch
                 }
             }
         }
-        public static void SetDisplayMonitors(bool connected)
+        public static void SetDisplayMonitors(bool connected, Dictionary<String, Boolean> monitorConfig)
         {
             foreach (var screen in Screen.AllScreens)
             {
@@ -139,40 +140,16 @@ namespace MonitorSwitch
                 var primary = screen.Primary;
                 var name = screen.DeviceName;
 
-                switch (name)
+                if (monitorConfig[name])
                 {
-                    case @"\\.\DISPLAY1":
-                        if (connected)
-                        {
-                            SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, DisplayPort);
-                        }
-                        else
-                        {
-                            SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, HDMI);
-                        }
-                        break;
-                    case @"\\.\DISPLAY2":
-                        if (connected)
-                        {
-                            SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, DisplayPort);
-                        }
-                        else
-                        {
-                            //SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, DVI);
-                        }
-                        break;
-                    case @"\\.\DISPLAY3":
-                        if (connected)
-                        {
-                            SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, DisplayPort);
-                        }
-                        else
-                        {
-                            SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, HDMI);
-                        }
-                        break;
-                    default:
-                        break;
+                    if (connected)
+                    {
+                        SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, DisplayPort);
+                    }
+                    else
+                    {
+                        SetVCPFeatureByMonitor(hMonitor, VCPInputSelectCode, HDMI);
+                    }  
                 }
             }
         }

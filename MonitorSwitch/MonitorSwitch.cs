@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Management;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace MonitorSwitch
 {
     public partial class MonitorSwitch : Form
     {
         String targetUsbHubDeviceID = @"USB\VID_1A40&PID_0101";
+        Dictionary<String, Boolean> monitorConfig = new Dictionary<String, Boolean>();
         ManagementEventWatcher insertWatcher = null;
         ManagementEventWatcher removeWatcher = null;
 
         public MonitorSwitch()
         {
             InitializeComponent();
+            targetUsbHubDeviceID = ConfigurationManager.AppSettings.Get("UsbHubDeviceID");
+            monitorConfig.Add(@"\\.\DISPLAY1", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display1Enabled")));
+            monitorConfig.Add(@"\\.\DISPLAY2", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display2Enabled")));
+            monitorConfig.Add(@"\\.\DISPLAY3", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display3Enabled")));
+            monitorConfig.Add(@"\\.\DISPLAY4", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display4Enabled")));
+            monitorConfig.Add(@"\\.\DISPLAY5", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display5Enabled")));
+            monitorConfig.Add(@"\\.\DISPLAY6", Convert.ToBoolean(ConfigurationManager.AppSettings.Get("Display6Enabled")));
         }
 
         private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
@@ -21,7 +32,7 @@ namespace MonitorSwitch
             String deviceID = (String)instance.Properties["DeviceID"].Value;
             if (deviceID.Contains(targetUsbHubDeviceID))
             {
-                WinAPI.SetDisplayMonitors(true);
+                WinAPI.SetDisplayMonitors(true, monitorConfig);
             }
         }
 
@@ -31,7 +42,7 @@ namespace MonitorSwitch
             String deviceID = (String)instance.Properties["DeviceID"].Value;
             if (deviceID.Contains(targetUsbHubDeviceID))
             {
-                WinAPI.SetDisplayMonitors(false);
+                WinAPI.SetDisplayMonitors(false, monitorConfig);
             }
         }
 
